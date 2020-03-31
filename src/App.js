@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import Dashboard from './Dashboard'
 /*
 Display a list of movies where each movie contains a list of users that favorited it.
 
@@ -96,33 +96,21 @@ const movies = {
     name: 'Get Out',
   },
 };
-//we can make the profile to be our main array.
-//there should be a list of a movie that we iterate through, 
-// for each list of the movie, there is a variable called id
-// we then iterate through the list of 
 
-//we can iterate through the profile array to find and turn them into a list 
-// of a list called combinedList, basically if the favoriteMovieID is the same
-// the combinedList should have five elements/sublist (this can easily be get from the movies.length
-
-// if the sublist has the length of zero, we still printout the name by saying movies[id].name but we say nobody likes it
-// if the sublist has non-zero length, we will iterate throught the  whole list, but this time we will make another for loop that print the users[users.id] instead
 class App extends Component {
-  constructor (props){
-   super(props);
-    this.combinedList = {}; // this is the film list, it should have 5 substring 
-    var i;
-    for ( i = 1; i < 6; i++)
-    {
-      if ( i===Number(profiles[i].favoriteMovieID))
-      {
-        //if (this.combinedList[i].length ==0)
-          this.combinedList[i].push(profiles[i].userID);
-      }
-      
-    }
-  }
+  
   render() {
+    var m_list_g = [];
+    for(let i = 1; i <= Object.keys(movies).length;i++){
+      var m_list = {};
+      var temps =profiles.filter((profile) =>{
+      return Number(profile.favoriteMovieID)==i
+    });
+      m_list = temps.map((temp)=>{
+          return temp.userID
+      })
+      m_list_g.push(m_list)
+  }
     return (
       <div className="App">
         <header className="App-header">
@@ -130,11 +118,13 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <h2>How Popular is Your Favorite Movie?</h2>
-		<Dashboard
-			
-    
-    ));
-		
+        <Dashboard
+          movies = {movies}
+          users = {users}
+          m_list_g ={m_list_g}
+        />
+
+        
       </div>
     );
   }
